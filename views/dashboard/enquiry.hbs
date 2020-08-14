@@ -1,0 +1,57 @@
+<div class="user-profile">
+    <div class="wrapper ">
+        {{>dashboard/sidebar}}
+        <div class="main-panel" id="main-panel">
+            {{>dashboard/header}}
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"> Enquiry</h4>
+                            </div>
+                            <div class="card-body">
+                                {{#if enquiry}}
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead class=" text-primary">
+                                            <th>
+                                                Name
+                                            </th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>
+                                                Message
+                                            </th>
+                                            <th class="text-right">
+                                                Action
+                                            </th>
+                                            </thead>
+                                            <tbody>
+                                            {{# each enquiry }}
+                                                <tr>
+                                                    <td>{{this.firstname}}</td>
+                                                    <td>{{this.email}}</td>
+                                                    <td>{{this.message}}</td>
+                                                    <td class="text-right">
+                                                        <a href="mailto:{{this.email}}" target=".blank">✉Send Mail ⩥</a>
+                                                    </td>
+                                                </tr>
+                                            {{/each}}
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                {{else}}
+                                    <p>no enquiry found</p>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{>dashboard/footer}}
+        </div>
+    </div>
+</div>

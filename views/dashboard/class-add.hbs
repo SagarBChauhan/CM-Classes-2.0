@@ -1,0 +1,288 @@
+<div class="user-profile">
+    <div class="wrapper ">
+        {{>dashboard/sidebar}}
+        <div class="main-panel" id="main-panel">
+            {{>dashboard/header}}
+            <div class="content">
+                <form  method="POST">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header pb-5">
+                                    <h5 class="title" style="float: left;">Class Add</h5>
+                                    <button  type="submit" style="float: right;" class="btn btn-primary">
+                                        Save <i class="now-ui-icons ui-1_simple-add"></i> 
+                                    </button>                          
+                                </div>
+                                <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2 pr-1">
+                                                <div class="form-group">
+                                                    <label for="medium">medium</label>
+                                                    <select id="medium" name="medium" class="form-control" required>
+                                                        <option selected value="">Choose...</option>
+                                                        <option value="English">English</option>
+                                                        <option value="Gujarati">Gujarati</option>
+                                                        <option value="Hindi">Hindi</option>
+                                                        <option value="other">other</option>
+                                                    </select>                                                
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 pr-1">
+                                                <div class="form-group">
+                                                    <label for="standard">standard</label>
+                                                    <select id="standard" name="standard" class="form-control" required>
+                                                        <option selected value="">Choose...</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                    </select>                                                
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 px-1">
+                                                <div class="form-group">
+                                                    <label for="division">division</label>
+                                                    <input type="text" class="form-control" id="division" name="division" placeholder="division" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pl-1">
+                                                <div class="form-group">
+                                                    <label for="classTeacher">class Teacher</label>
+                                                    <select id="classTeacher" name="classTeacher" class="form-control" required>
+                                                        <option selected value="">Choose...</option>
+                                                        {{#if employee}}
+                                                            {{#each employee}}
+                                                            <option value="{{this._id}}">{{this.firstName}} {{this.lastName}}</option>
+                                                            {{/each}}
+                                                        {{/if}}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-5 py-1">
+                                                <div class="form-group">
+                                                    <label for="students">Students</label>
+                                                    <select style="height: 420px;" class="form-control" id="students" name="students" multiple>
+                                                        {{#if students}}
+                                                            {{#each students}}
+                                                            <option value="{{this._id}}">{{this.enrollmentNo}} - {{this.firstName}} {{this.lastName}}</option>
+                                                            {{/each}}
+                                                        {{/if}}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 py-1 my-3">
+                                                <a style="float: right;" class="btn btn-info btn-round btn-icon btn-sm"
+                                                                data-toggle="modal" data-target="#ModelStudent">
+                                                    <i class="now-ui-icons ui-1_simple-add"></i>
+                                                </a>
+                                                <div class="modal fade" id="ModelStudent" tabindex="-1"
+                                                        role="dialog"
+                                                        aria-labelledby="ModelStudentLabel" aria-hidden="true"
+                                                        style="display: none;">
+                                                    <div class="modal-dialog w-100" style="max-width: fit-content;">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                                <div class="card">
+                                                                    <div class="card-header">
+                                                                        <h5 class="title"  style="float:left;" >Add Students</h5>
+                                                                        <button type="button" style="float:right;" class="btn btn-danger btn-icon"
+                                                                        data-dismiss="modal"><i class="now-ui-icons ui-1_simple-remove"></i>
+                                                                </button>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                    {{#if students}}
+                                                                        <div class="table-responsive">
+                                                                            <table class="table">
+                                                                                <thead class=" text-primary">
+                                                                                <th>
+                                                                                    Picture
+                                                                                </th>
+                                                                                <th>
+                                                                                    Name
+                                                                                </th>
+                                                                                <th>
+                                                                                    Enrollment
+                                                                                </th>
+                                                                                <th>
+                                                                                    Stream
+                                                                                </th>
+                                                                                <th>
+                                                                                    Medium
+                                                                                </th>
+                                                                                <th>
+                                                                                    SchoolName
+                                                                                </th>
+                                                                                <th>
+                                                                                    Standard
+                                                                                </th>
+                                                                                <th class="text-right">
+                                                                                    Action
+                                                                                </th>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                {{# each students }}
+                                                                                    <tr>
+                                                                                        <td class="dp-sm">
+                                                                                            <a class="nav-link" href="#">
+                                                                                                <img class="rounded-circle"
+                                                                                                    src="../assets2/img/mike.jpg"
+                                                                                                    alt="">
+                                                                                            </a>
+                                                                                        </td>
+                                                                                        <td>{{this.firstName}} {{this.middleName}} {{this.lastName}}</td>
+                                                                                        <td>{{this.enrollmentNo}}</td>
+                                                                                        <td>{{this.stream}}</td>
+                                                                                        <td>{{this.medium}}</td>
+                                                                                        <td>{{this.schoolName}}</td>
+                                                                                        <td>{{this.standard}}</td>
+                                                                                        <td class="text-right">
+                                                                                            <a class="btn btn-success btn-round btn-icon btn-sm">
+                                                                                                <i class="now-ui-icons users_single-02"></i>
+                                                                                            </a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                {{/each}}
+                                                                                </tbody>
+                                                                            </table>
+
+                                                                        </div>
+                                                                    {{else}}
+                                                                        <p>no batch found</p>
+                                                                    {{/if}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger"
+                                                                        data-dismiss="modal">Close
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5 py-1">
+                                                <div class="form-group">
+                                                    <label for="subjects">subjects</label>
+                                                    <select style="height: 420px;" class="form-control" id="subjects" name="subjects" multiple>
+                                                        {{#if subjects}}
+                                                            {{#each subjects}}
+                                                            <option value="{{this._id}}">{{this.code}} {{this.title}}</option>
+                                                            {{/each}}
+                                                        {{/if}}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 py-1 my-3">
+                                                <a style="float: right;" class="btn btn-info btn-round btn-icon btn-sm"
+                                                                data-toggle="modal" data-target="#ModelSubject">
+                                                    <i class="now-ui-icons ui-1_simple-add"></i>
+                                                </a>
+                                                <div class="modal fade" id="ModelSubject" tabindex="-1"
+                                                        role="dialog"
+                                                        aria-labelledby="ModelSubjectLabel" aria-hidden="true"
+                                                        style="display: none;">
+                                                    <div class="modal-dialog w-100" style="max-width: fit-content;">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                                <div class="card">
+                                                                    <div class="card-header">
+                                                                        <h5 class="title"  style="float:left;" >Add Subjects</h5>
+                                                                        <button type="button" style="float:right;" class="btn btn-danger btn-icon"
+                                                                        data-dismiss="modal"><i class="now-ui-icons ui-1_simple-remove"></i>
+                                                                </button>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                    {{#if students}}
+                                                                        <div class="table-responsive">
+                                                                            <table class="table">
+                                                                                <thead class=" text-primary">
+                                                                                <th>
+                                                                                    Picture
+                                                                                </th>
+                                                                                <th>
+                                                                                    Name
+                                                                                </th>
+                                                                                <th>
+                                                                                    Enrollment
+                                                                                </th>
+                                                                                <th>
+                                                                                    Stream
+                                                                                </th>
+                                                                                <th>
+                                                                                    Medium
+                                                                                </th>
+                                                                                <th>
+                                                                                    SchoolName
+                                                                                </th>
+                                                                                <th>
+                                                                                    Standard
+                                                                                </th>
+                                                                                <th class="text-right">
+                                                                                    Action
+                                                                                </th>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                {{# each students }}
+                                                                                    <tr>
+                                                                                        <td class="dp-sm">
+                                                                                            <a class="nav-link" href="#">
+                                                                                                <img class="rounded-circle"
+                                                                                                    src="../assets2/img/mike.jpg"
+                                                                                                    alt="">
+                                                                                            </a>
+                                                                                        </td>
+                                                                                        <td>{{this.firstName}} {{this.middleName}} {{this.lastName}}</td>
+                                                                                        <td>{{this.enrollmentNo}}</td>
+                                                                                        <td>{{this.stream}}</td>
+                                                                                        <td>{{this.medium}}</td>
+                                                                                        <td>{{this.schoolName}}</td>
+                                                                                        <td>{{this.standard}}</td>
+                                                                                        <td class="text-right">
+                                                                                            <a class="btn btn-success btn-round btn-icon btn-sm">
+                                                                                                <i class="now-ui-icons users_single-02"></i>
+                                                                                            </a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                {{/each}}
+                                                                                </tbody>
+                                                                            </table>
+
+                                                                        </div>
+                                                                    {{else}}
+                                                                        <p>no batch found</p>
+                                                                    {{/if}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger"
+                                                                        data-dismiss="modal">Close
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {{>dashboard/footer}}
+        </div>
+    </div>
+</div>

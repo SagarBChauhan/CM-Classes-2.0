@@ -1,0 +1,91 @@
+<div class="user-profile">
+    <div class="wrapper ">
+        {{>dashboard/sidebar}}
+        <div class="main-panel" id="main-panel">
+            {{>dashboard/header}}
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"> Leave</h4>
+                            </div>
+                            <div class="card-body">
+                                {{#if leave}}
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead class=" text-primary">
+                                            <th>
+                                                #
+                                            </th>
+                                            <th>
+                                                Photo
+                                            </th>
+                                            <th>
+                                                Name
+                                            </th>
+                                            <th>
+                                                Reason
+                                            </th>
+                                            <th>
+                                                From
+                                            </th>
+                                            <th>
+                                                To
+                                            </th>
+                                            <th>
+                                                Status
+                                            </th>
+                                            <th>
+                                                Remarks
+                                            </th>
+                                            <th class="text-right">
+                                                Action
+                                            </th>
+                                            </thead>
+                                            <tbody>
+                                            {{# each leave }}
+                                                <tr>
+                                                    <td>{{@index}}</td>
+                                                    <td class="dp-sm">
+                                                        <a class="nav-link" href="#">
+                                                            <img class="rounded-circle"
+                                                                 src="../assets2/img/mike.jpg"
+                                                                 alt="">
+                                                        </a>
+                                                    </td>
+                                                    <td>{{this.student.firstName}} {{this.student.lastName}}  (Std. {{this.student.standard}} {{this.student.stream}})</td>
+                                                    <td>{{this.reason}}</td>
+                                                    <td>{{this.from}}</td>
+                                                    <td>{{this.to}}</td>
+                                                    <td>{{this.status}}</td>
+                                                    <td>{{this.remarks}}</td>
+                                                    <td class="text-right">
+                                                        <a href="/dashboard/leave/accept/{{this._id}}"
+                                                           class="btn btn-success btn-round btn-icon btn-sm text-white"
+                                                           role="button">
+                                                            <i class="now-ui-icons ui-1_check"></i>
+                                                        </a>
+                                                        <a href="/dashboard/leave/reject/{{this._id}}"
+                                                           class="btn btn-danger btn-round  btn-icon btn-sm text-white">
+                                                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {{/each}}
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                {{else}}
+                                    <p>no leves found</p>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{>dashboard/footer}}
+        </div>
+    </div>
+</div>

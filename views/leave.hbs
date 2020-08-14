@@ -1,0 +1,153 @@
+<div class="profile-page sidebar-collapse">
+    <!-- Navbar -->
+    {{>header}}
+    <!-- End Navbar -->
+    <div class="wrapper">
+        <div class="page-header clear-filter page-header-small" filter-color="orange">
+            <div class="page-header-image" data-parallax="true"
+                 style="background-image:url('/images/boston-public-library-Mi8ozXhtmqI-unsplash.jpg');">
+            </div>
+            <div class="container">
+                <h3 class="title">Leave</h3>
+                <p class="category">Applications</p>
+                <div class="content">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="button-container">
+                    <a href="#button" class="btn btn-primary btn-round btn-lg" data-toggle="modal"
+                       data-target="#ApplyModel">Apply New Leave</a>
+                </div>
+                {{#if hasErrors}}
+                    <div class="alert alert-danger" role="alert">
+                        {{# each messages}}
+                            <div class="container">
+                                <div class="alert-icon">
+                                    &tridot;
+                                    <!--                                            <i class="now-ui-icons objects_support-17"></i>-->
+                                </div>
+                                <strong>alert!</strong> {{this}}
+                                <button type="button" class="close" style="line-height: 1;" data-dismiss="alert"
+                                        aria-label="Close">
+                                          <span aria-hidden="true">
+                                              &times;
+                                          </span>
+                                </button>
+                            </div>
+                        {{/each}}
+                    </div>
+                {{/if }}
+                <div class="row">
+                    <div class="col-md-12 ml-auto mr-auto">
+                        <h4 class="title text-center">Leave History</h4>
+                        {{#if user}}
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class=" text-primary">
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Reason
+                                    </th>
+                                    <th>
+                                        From
+                                    </th>
+                                    <th>
+                                        To
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th>
+                                        Remarks
+                                    </th>
+                                    <th class="text-right">
+                                        Action
+                                    </th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                    {{#each leaves }}
+                                            <td>{{@index}}</td>
+                                            <td>{{this.reason}}</td>
+                                            <td>{{this.from}}</td>
+                                            <td>{{this.to}}</td>
+                                            <td>{{this.status}}</td>
+                                            <td>{{this.remarks}}</td>
+                                            <td class="text-right">
+                                                <button class="btn btn-info btn-round btn-icon btn-sm"
+                                                        data-toggle="modal" data-target="#Model{{this._id}}">
+                                                    <i class="now-ui-icons users_single-02"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    {{/each}}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        {{else}}
+                            <p>no leave found</p>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mini Modal -->
+    <div class="modal fade  modal-primary" id="ApplyModel" tabindex="-1" role="dialog"
+         aria-labelledby="ApplyModelLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <p>Apply a</p>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="card card-signup" style="max-width: 500px;" data-background-color="orange">
+                                <form class="form" method="POST">
+                                    <input type="hidden" id="userId" name="userId" value="{{user.id}}">
+                                    <div class="card-header text-center">
+                                        <h3 class="card-title title-up">Leave</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group no-border">
+                                            <label for="fromDate">From Date</label>
+                                            <input type="text" id="fromDate" name="fromDate" class="form-control date-picker" value="{{date}}" data-datepicker-color="primary">
+                                        </div>
+                                        <div class="form-group no-border">
+                                            <label for="toDate">To Date</label>
+                                            <input type="text" id="toDate" name="toDate" class="form-control date-picker" value="{{date}}" data-datepicker-color="primary">
+                                        </div>
+                                        <div class="form-group no-border">
+                                            <label for="reason">Reason</label>
+                                            <textarea type="text" id="reason" name="reason" class="form-control"
+                                                placeholder="reason..." required ></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                                        <button type="submit" class="btn btn-neutral btn-round btn-lg">Apply <i
+                                                class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link btn-neutral">Back</button>
+                    <button type="button" class="btn btn-link btn-neutral" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  End Modal -->
+    {{>footer}}
+
+</div>

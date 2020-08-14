@@ -1,0 +1,134 @@
+<div class="user-profile">
+    <div class="wrapper ">
+        {{>dashboard/sidebar}}
+        <div class="main-panel" id="main-panel">
+            {{>dashboard/header}}
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header pb-5">
+                                <h5 class="title" style="float: left;">Class</h5>
+                                <a  type="button" href="/dashboard/class-add" target="_blank" style="float: right;" class="btn btn-primary">
+                                    Add <i class="now-ui-icons ui-1_simple-add"></i> 
+                                </a>                          
+                            </div>
+                            <div class="card-body">
+                                {{#if class}}
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead class=" text-primary">
+                                            <th>
+                                                students
+                                            </th>
+                                            <th>
+                                                subject
+                                            </th>
+                                            <th>
+                                                standard
+                                            </th>
+                                            <th>
+                                                medium
+                                            </th>
+                                            <th>
+                                                division
+                                            </th>
+                                            <th>
+                                                classTeacher
+                                            </th>
+                                            <th class="text-right">
+                                                Action
+                                            </th>
+                                            </thead>
+                                            <tbody>
+                                            {{# each class}}
+                                                <tr>
+                                                    <td>{{#each this.students}} &bullet; {{this.firstName}} {{this.middleName}} {{this.lastName}}<br> {{/each}}</td>
+                                                    <td>{{#each this.subjects}} &bullet; {{this.code}} - {{this.title}} <br> {{/each}}</td>
+                                                    <td>{{this.standard}}</td>
+                                                    <td>{{this.medium}}</td>
+                                                    <td>{{this.division}}</td>
+                                                    <td>{{this.classTeacher.firstName}} {{this.classTeacher.middleName}} {{this.classTeacher.lastName}} </td>
+                                                    <td class="text-right">
+                                                        <a onclick="conf()" class="btn btn-danger btn-round  btn-icon btn-sm text-white">
+                                                            <i class="now-ui-icons ui-1_simple-remove"></i>                                                       
+                                                        </a>
+                                                    </td>
+                                                    <script>
+                                                        var params = new window.URLSearchParams(window.location.search);
+                                                        if(params.get('done')=="true")
+                                                        {
+                                                            swal({
+                                                            title: "Data Deleted",
+                                                            text: "Data deleted successfully!",
+                                                            icon: "success"
+                                                            })
+                                                            .then(function()    {
+                                                                window.location.href='/dashboard/class';                                                                
+                                                            });
+                                                        }
+                                                        else if(params.get('done')=="false")
+                                                        {
+                                                            swal({
+                                                            title: "Data Delete Failed!",
+                                                            text: "Data not deleted!",
+                                                            icon: "error"
+                                                            })
+                                                            .then(function()    {
+                                                                window.location.href='/dashboard/class';                                                                
+                                                            });
+                                                        }
+                                                    function conf(){
+                                                        swal({
+                                                            title: "Are you sure?",
+                                                            text: "Once deleted, you will not be able to recover this!",
+                                                            icon: "warning",
+                                                            buttons: true,
+                                                            dangerMode: true,
+                                                            })
+                                                            .then((willDelete) => {
+                                                            if (willDelete) {
+
+                                                                $.ajax({
+                                                                    type:'GET',
+                                                                    url:'/dashboard/class-remove/{{this._id}}'
+                                                                })
+                                                                .done(function(data){
+                                                                    if(data=="true")
+                                                                    {
+                                                                        window.location.href='/dashboard/class?done=true';
+                                                                        $('#msg').html(data);
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        window.location.href='/dashboard/class?done=false';
+                                                                        $('#msg').html(data);
+                                                                    }
+                                                                })
+                                                                .fail(function(cb,textStatus,er){
+                                                                    $('#msg').html(textStatus);
+                                                                })
+                                                            } else {
+                                                            }
+                                                            });
+                                                    }
+                                                </script>
+                                                </tr>
+                                            {{/each}}
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                {{else}}
+                                    <p>no batch found</p>
+                                {{/if}}
+                            </div>
+                        </div>
+                        <p id="msg"></p >
+                    </div>
+                </div>
+            </div>
+            {{>dashboard/footer}}
+        </div>
+    </div>
+</div>
