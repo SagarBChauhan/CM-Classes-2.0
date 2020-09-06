@@ -9,7 +9,10 @@ var Users = require('../models/user');
 var Class = require('../models/class');
 var Subject = require('../models/subject');
 var Leave = require('../models/leave');
+var Alert = require('../models/alert');
+var nodemailer=require('nodemailer');
 
+var keys=require("../config/keys");
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -20,6 +23,82 @@ router.get('/', function (req, res, next) {
     });
 });
 
+/* GET alert page. */
+router.get('/alert', function (req, res, next) {
+    Alert.find().then(function (doc) {
+        console.log(doc);
+        res.render('dashboard/alert', {title: 'Alert', li10: true, dashboard: true, user: req.user,alert:doc});     
+     });
+
+});
+
+/* POST alert page. */
+router.post('/alert', function (req, res, next) {
+    const title=req.body.title;
+    const description=req.body.description;
+    const audience=req.body.audience;
+    let ts = Date.now();
+    let date_ob = new Date(ts);
+    let date = date_ob.getDate();
+    let month = date_ob.getMonth() + 1;
+    let year = date_ob.getFullYear();
+    let date_now=Date( date + "-" + month + "-" + year);
+
+    var alert = new Alert({
+        title:title,
+        description:description,
+        audience:audience,
+        date:date_now
+    });
+
+    alert.save().then(function(err,result){
+            if(err){
+                var messages = [];
+                messages.push(err);
+                req.flash('error', messages);
+                console.log(err);
+            }
+            else{
+                var messages = [];
+                messages.push("Alert published successfully");
+                req.flash('success', messages);
+                console.log("Alert published successfully");
+            }
+            console.log(result);
+    });
+    res.redirect('alert');
+});
+
+router.get('/alert-remove/:id', function (req, res, next) {
+    var id = req.params.id;
+    Alert.findByIdAndDelete(id, function (err) {
+        if(err) {
+            res.write('false');
+            res.end();
+            console.log(err)
+        }
+        else{        
+            console.log("Successful deletion");
+            res.write('true');
+            res.end();   
+        }
+    });
+    console.log("alert-remove");
+});
+
+/* GET alert-add page. */
+router.get('/alert-add', function (req, res, next) {
+    res.render('dashboard/alert-add', {title: 'Alert Add', li10: true, dashboard: true, user: req.user});     
+});
+/* GET alert-add page. */
+router.get('/alert-add', function (req, res, next) {
+    Alert.find().then(function (doc) {
+        console.log(doc);
+        res.render('dashboard/alert-add', {title: 'Alert Add', li10: true, dashboard: true, user: req.user,alert:doc});     
+     });
+
+});
+
 /* GET enquiry page. */
 router.get('/enquiry', function (req, res, next) {
     Enquiry.find().then(function (doc) {
@@ -27,6 +106,51 @@ router.get('/enquiry', function (req, res, next) {
         res.render('dashboard/enquiry', {title: 'Enquiry', li7: true, dashboard: true, user: req.user,enquiry:doc});     
      });
 
+});
+
+/* POST enquiry page. */
+router.post('/enquiry', function (req, res, next) {
+    
+    console.log("enter");
+    const name=req.body.name;
+    const mail=req.body.mail;
+    const refId=req.body.refId;
+    const refMsg=req.body.refMsg;
+    const Msg=req.body.msg;
+      
+    var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+        user: keys.email.emailId,
+        pass: keys.email.password
+        }
+    });
+
+    var mailOptions = {
+        from: keys.email.emailId,
+        to: mail,
+        subject: 'Enquirey response for '+refMsg,
+        text:'Thank you '+name+' for contact us,\n Your Message was: '+refMsg+'\n Here is our response: ,' +Msg+'\n\n Sent using CM Classes quick reply'
+        };
+
+    transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+        console.log(error);
+    } else {
+        console.log('Email sent: ' + info.response);
+    }
+    });
+
+    Enquiry.findById(refId, function (err, doc) {
+        doc.status='true';
+        console.log('Done');
+        doc.save();
+    });
+
+    Enquiry.find().then(function (doc) {
+        console.log(doc);
+        res.render('dashboard/enquiry', {title: 'Enquiry', li7: true, dashboard: true, user: req.user,enquiry:doc,msg:"Replyed successfully"});     
+     });
 });
 
 
@@ -45,18 +169,7 @@ router.get('/role-change/:id/:type', function (req, res, next) {
     Users.findById(id).then(function (doc) {
         console.log(doc.type+"to"+type);
         doc.type=type;
-        doc.save(function (err) {
-            if(err) {
-                res.write('false');
-                res.end();
-                console.log(err)
-            }
-            else{        
-                console.log("Successful update");
-                res.write('true');
-                res.end();   
-            }
-        });
+        doc.save();
         console.log("role-change");    
      });
 

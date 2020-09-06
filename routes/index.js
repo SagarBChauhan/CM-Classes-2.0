@@ -17,7 +17,7 @@ router.post('/', function (req, res, next) {
   var enquiry=new Enquiry({
     firstname:req.body.firstname,
     email:req.body.email,
-    message:req.body.message
+    message:req.body.message,
   });
   enquiry.save();
   var query= User.findOne({'type':'admin'});

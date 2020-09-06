@@ -39,6 +39,7 @@ var Employee = require('../models/employee');
 var StudentRequests = require('../models/student-requests');
 var EmployeeRequests = require('../models/employee-requests');
 var Leave = require('../models/leave');
+var Alert = require('../models/alert');
 var keys= require('../config/keys');
 
 /* GET users listing. */
@@ -403,7 +404,7 @@ router.get('/student-details', isLoggedIn, function (req, res, next) {
             csrfToken: req.csrfToken,
             messages: messages, hasErrors: messages.length > 0,
             title: 'Student details', user: doc,
-            status:req.user.status
+            status:doc.status
         });
     });
 });

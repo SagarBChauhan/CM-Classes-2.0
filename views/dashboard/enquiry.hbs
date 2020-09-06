@@ -11,6 +11,11 @@
                                 <h4 class="card-title"> Enquiry</h4>
                             </div>
                             <div class="card-body">
+                                {{#if msg}}
+                                    <script>
+                                        swal("Reply status", " {{msg}}!", "success");
+                                    </script>
+                                {{/if}}
                                 {{#if enquiry}}
                                     <div class="table-responsive">
                                         <table class="table">
@@ -30,12 +35,54 @@
                                             </thead>
                                             <tbody>
                                             {{# each enquiry }}
-                                                <tr>
+                                                <tr {{#if this.status}} class="text-success"{{/if}}>
                                                     <td>{{this.firstname}}</td>
                                                     <td>{{this.email}}</td>
                                                     <td>{{this.message}}</td>
                                                     <td class="text-right">
-                                                        <a href="mailto:{{this.email}}" target=".blank">✉Send Mail ⩥</a>
+                                                        <a class="btn btn-secondary btn-round btn-icon btn-sm" href="mailto:{{this.email}}" target=".blank"  data-toggle="tooltip" title="Send Mail">
+                                                            <i class="now-ui-icons ui-1_email-85"></i>
+                                                        </a>
+                                                        <button class="btn btn-primary btn-round btn-icon btn-sm"
+                                                                data-toggle="modal" data-target="#Model{{this._id}}"  data-toggle="tooltip"  title="Quick reply">
+                                                            <i class="now-ui-icons ui-1_send"></i>
+                                                        </button>
+                                                        <div class="modal fade" id="Model{{this._id}}" tabindex="-1"
+                                                            role="dialog"
+                                                            aria-labelledby="Model{{this._id}}Label" aria-hidden="true"
+                                                            style="display: none;">
+                                                            <div class="modal-dialog ">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-body">
+                                                                        <form  method="post">
+                                                                        <div class="container">
+                                                                            <div class="row">
+                                                                                <div class="col-md-12 px-1">
+                                                                                    <label for="" style="float: left;">Replying to:</label>
+                                                                                    <input type="email" class="form-control" value="{{this.email}}" disabled>
+                                                                                    <input type="hidden" class="form-control" id="refId" name="refId" value="{{this._id}}" >
+                                                                                    <input type="hidden" class="form-control" id="name" name="name" value="{{this.firstname}}" >
+                                                                                    <input type="hidden" class="form-control" id="mail" name="mail" value="{{this.email}}" >
+                                                                                    <input type="hidden" class="form-control" id="refMsg" name="refMsg" value="{{this.message}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                            <div class="col-md-12 px-1">
+                                                                                <div class="form-group">
+                                                                                    <label for="inputEmail4" style="float: left;">Message</label>
+                                                                                    <textarea style="  width: 100%;  height: 150px;  padding: 12px 20px;  box-sizing: border-box;  border: 2px solid #e43a47;  border-radius: 4px;  background-color: #f8f8f8;  resize: none;" type="text" class="form-control" id="msg" name="msg" placeholder="Start typing.." rows="10" cols="30"></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                            <button type="submit" style="float: left;" class="btn btn-primary round m-2">Send Message</button>   
+                                                                            </div>
+                                                                        </div>
+                                                                        </form>  
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             {{/each}}

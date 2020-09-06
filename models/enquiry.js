@@ -4,7 +4,8 @@ var Schema=mongoose.Schema;
 var schema=new Schema({
     firstname:{type: Object, required:true},
     email:{type: String,required:true},
-    message:{type: String,required:true}
+    message:{type: String,required:true},
+    status:{type: String}
 },{collation:'enquiry'});
 
 

@@ -1,0 +1,57 @@
+<div class="user-profile">
+    <div class="wrapper ">
+        {{>dashboard/sidebar}}
+        <div class="main-panel" id="main-panel">
+            {{>dashboard/header}}
+            <div class="content">
+                <form  method="POST">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header pb-5">
+                                    <h5 class="title" style="float: left;">Alert Add</h5>
+                                    <button  type="submit" style="float: right;" class="btn btn-primary">
+                                        Save & Publish
+                                    </button>                          
+                                    <button  type="submit" style="float: right;" class="btn mx-3">
+                                        Save as Draft
+                                    </button>                          
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 py-1">
+                                            <div class="form-group">
+                                                <label for="title">title</label>
+                                                <input type="text" id="title" name="title" class="form-control" placeholder="alert title" required/>                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 py-1">
+                                            <div class="form-group">
+                                                <label for="audience">audience</label>
+                                                <select id="audience" name="audience" class="form-control" required>
+                                                    <option selected value="">Choose...</option>
+                                                    <option value="students">Students</option>
+                                                    <option value="employees">Employees</option>
+                                                    <option value="all">All</option>
+                                                </select>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 py-1">
+                                            <div class="form-group">
+                                                <label for="description">description</label>
+                                                <textarea  type="text" id="description" name="description" class="form-control" placeholder="alert description"  style="  width: 100%;  height: 150px;  padding: 12px 20px;  box-sizing: border-box;  border:1px solid #E3E3E3;  border-radius: 4px;  resize: none;"  required></textarea>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {{>dashboard/footer}}
+        </div>
+    </div>
+</div>

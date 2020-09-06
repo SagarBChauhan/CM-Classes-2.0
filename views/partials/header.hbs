@@ -35,12 +35,19 @@
             <ul class="navbar-nav">
                 {{# if login}}
                     <li class="nav-item">
-
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="/users/profile"  rel="tooltip"
                            title="View Profile" data-placement="bottom">
                             <img class="rounded-circle dp-sm1" src="http://static.asianetnews.com/img/default-user-avatar.png" alt="">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/profile"  rel="tooltip"
+                           title="View alerts" data-placement="bottom">
+                            {{#if alert}}
+                                <i class="fas fa-bell fa-2x p-1"></i> 
+                            {{else}}
+                                <i class="far fa-bell fa-2x p-1"></i><span class="badge badge-warning ml-n2">1</span>
+                            {{/if}}
                         </a>
                     </li>
                     <li class="nav-item">

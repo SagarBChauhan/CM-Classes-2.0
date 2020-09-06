@@ -1,0 +1,179 @@
+<div class="user-profile">
+    <div class="wrapper ">
+        {{>dashboard/sidebar}}
+        <div class="main-panel" id="main-panel">
+            {{>dashboard/header}}
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header pb-5">
+                                <h5 class="title" style="float: left;">Alerts</h5>
+                                <a  type="button" href="/dashboard/alert-add" target="_blank" style="float: right;" class="btn btn-primary" data-toggle="modal" data-target="#ModelAlertAdd"  data-toggle="tooltip"  title="Add Alert">
+                                    Add <i class="now-ui-icons ui-1_simple-add"></i> 
+                                </a>
+                                <div class="modal fade" id="ModelAlertAdd" tabindex="-1"
+                                    role="dialog"
+                                    aria-labelledby="ModelAlertAddLabel" aria-hidden="true"
+                                    style="display: none;">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                            <form  method="POST">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="card">
+                                                            <div class="card-header pb-5">
+                                                                <h5 class="title" style="float: left;">Alert Add</h5>
+                                                                <button  type="submit" style="float: right;" class="btn btn-primary">
+                                                                    Save & Publish
+                                                                </button>                          
+                                                                <button  type="submit" style="float: right;" class="btn mx-3">
+                                                                    Save as Draft
+                                                                </button>                          
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-6 py-1">
+                                                                        <div class="form-group">
+                                                                            <label for="title">title</label>
+                                                                            <input type="text" id="title" name="title" class="form-control" placeholder="alert title" required/>                                                
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6 py-1">
+                                                                        <div class="form-group">
+                                                                            <label for="audience">audience</label>
+                                                                            <select id="audience" name="audience" class="form-control" required>
+                                                                                <option selected value="">Choose...</option>
+                                                                                <option value="students">Students</option>
+                                                                                <option value="employees">Employees</option>
+                                                                                <option value="all">All</option>
+                                                                            </select>                                                
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12 py-1">
+                                                                        <div class="form-group">
+                                                                            <label for="description">description</label>
+                                                                            <textarea  type="text" id="description" name="description" class="form-control" placeholder="alert description"  style="  width: 100%;  height: 150px;  padding: 12px 20px;  box-sizing: border-box;  border:1px solid #E3E3E3;  border-radius: 4px;  resize: none;"  required></textarea>                                                
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                          
+                            </div>
+                            <div class="card-body">
+                                {{#if alert}}
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead class=" text-primary">
+                                            <th>
+                                                title
+                                            </th>
+                                            <th>
+                                                description
+                                            </th>
+                                            <th>
+                                                audience
+                                            </th>
+                                            <th class="text-right">
+                                                Action
+                                            </th>
+                                            </thead>
+                                            <tbody>
+                                            {{# each alert}}
+                                                <tr>
+                                                    <td>{{this.title}}</td>
+                                                    <td>{{this.description}}</td>
+                                                    <td>{{this.audience}}</td>
+                                                    <td class="text-right">
+                                                        <a onclick="conf()" class="btn btn-danger btn-round  btn-icon btn-sm text-white">
+                                                            <i class="now-ui-icons ui-1_simple-remove"></i>                                                       
+                                                        </a>
+                                                    </td>
+                                                    <script>
+                                                        var params = new window.URLSearchParams(window.location.search);
+                                                        if(params.get('done')=="true")
+                                                        {
+                                                            swal({
+                                                            title: "Data Deleted",
+                                                            text: "Data deleted successfully!",
+                                                            icon: "success"
+                                                            })
+                                                            .then(function()    {
+                                                                window.location.href='/dashboard/alert';                                                                
+                                                            });
+                                                        }
+                                                        else if(params.get('done')=="false")
+                                                        {
+                                                            swal({
+                                                            title: "Data Delete Failed!",
+                                                            text: "Data not deleted!",
+                                                            icon: "error"
+                                                            })
+                                                            .then(function()    {
+                                                                window.location.href='/dashboard/alert';                                                                
+                                                            });
+                                                        }
+                                                    function conf(){
+                                                        swal({
+                                                            title: "Are you sure?",
+                                                            text: "Once deleted, you will not be able to recover this!",
+                                                            icon: "warning",
+                                                            buttons: true,
+                                                            dangerMode: true,
+                                                            })
+                                                            .then((willDelete) => {
+                                                            if (willDelete) {
+
+                                                                $.ajax({
+                                                                    type:'GET',
+                                                                    url:'/dashboard/alert-remove/{{this._id}}'
+                                                                })
+                                                                .done(function(data){
+                                                                    if(data=="true")
+                                                                    {
+                                                                        window.location.href='/dashboard/alert?done=true';
+                                                                        $('#msg').html(data);
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        window.location.href='/dashboard/alert?done=false';
+                                                                        $('#msg').html(data);
+                                                                    }
+                                                                })
+                                                                .fail(function(cb,textStatus,er){
+                                                                    $('#msg').html(textStatus);
+                                                                })
+                                                            } else {
+                                                            }
+                                                            });
+                                                    }
+                                                </script>
+                                                </tr>
+                                            {{/each}}
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                {{else}}
+                                    <p>no alert found</p>
+                                {{/if}}
+                            </div>
+                        </div>
+                        <p id="msg"></p >
+                    </div>
+                </div>
+            </div>
+            {{>dashboard/footer}}
+        </div>
+    </div>
+</div>
