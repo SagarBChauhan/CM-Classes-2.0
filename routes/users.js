@@ -404,7 +404,7 @@ router.get('/student-details', isLoggedIn, function (req, res, next) {
             csrfToken: req.csrfToken,
             messages: messages, hasErrors: messages.length > 0,
             title: 'Student details', user: doc,
-            status:doc.status
+            status:"Ture"
         });
     });
 });

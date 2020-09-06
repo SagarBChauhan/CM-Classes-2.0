@@ -574,20 +574,20 @@ router.post('/class-add', function (req, res, next) {
     var students=req.body.students;
     var subjects=req.body.subjects;
 
-    console.log("Students : "+students);
-    console.log("Subjects : "+subjects);
+    // console.log("Students : "+students);
+    // console.log("Subjects : "+subjects);
 
 
-    Student.findOne({'_id':students},function (err,doc){    
+    Student.find({'_id':students},function (err,doc){    
         // console.log("st:"+doc);
         Employee.findOne({'_id':classTeacher},function (err,doc2){    
             // console.log("ct:"+doc2);
-            Subject.findOne({'_id':subjects},function (err,doc3){    
+            Subject.find({'_id':subjects},function (err,doc3){    
             // console.log("sub:"+doc3);
             var class1=new Class({
-                standard:'12',
-                medium:'Gujarati',
-                division:'B',
+                standard:standard,
+                medium:medium,
+                division:division,
                 classTeacher:{
                     user:doc2.user,
                     firstName:doc2.firstName,
@@ -597,50 +597,63 @@ router.post('/class-add', function (req, res, next) {
                     contact:doc2.contact,
                     enrollmentNo:doc2.enrollmentNo,
                     department:doc2.department
-                },
-                students:[{
-                    user:doc.user,
-                    firstName:doc.firstName,
-                    middleName:doc.middleName,
-                    lastName:doc.lastName,
-                    contact:doc.contact,
-                    enrollmentNo:doc.enrollmentNo,
-                    stream:doc.stream,
-                    medium:doc.medium,
-                    schoolName:doc.schoolName,
-                    standard:doc.standard
-                }],
-                subjects:[{
-                    id:doc3.id,
-                    code:doc3.code,
-                    title:doc3.title
-                }]
+                }
+                // ,
+                // students:[{
+                //     user:doc.user,
+                //     firstName:doc.firstName,
+                //     middleName:doc.middleName,
+                //     lastName:doc.lastName,
+                //     contact:doc.contact,
+                //     enrollmentNo:doc.enrollmentNo,
+                //     stream:doc.stream,
+                //     medium:doc.medium,
+                //     schoolName:doc.schoolName,
+                //     standard:doc.standard
+                // }],
+                // subjects:[{
+                //     id:doc3.id,
+                //     code:doc3.code,
+                //     title:doc3.title
+                // }]
             });
+            
+            let st=[];
+            for(let i=0;i<doc.length;i++){
+                let student={           
+                    user:doc[i].user,
+                    firstName:doc[i].firstName,
+                    middleName:doc[i].middleName,
+                    lastName:doc[i].lastName,
+                    contact:doc[i].contact,
+                    enrollmentNo:doc[i].enrollmentNo,
+                    stream:doc[i].stream,
+                    medium:doc[i].medium,
+                    schoolName:doc[i].schoolName,
+                    standard:doc[i].standard
+                };
+                st.push(student);
+            }
 
-            // var sub=subjects;
-            // var subs=[];
+            let sub=[];
+            for(let i=0;i<doc3.length;i++){
+                let subject={
+                    id:doc3[i].id,
+                    code:doc3[i].code,
+                    title:doc3[i].title
+                }
+                sub.push(subject);
+            }
+            class1.students=st;
+            class1.subjects=sub;
 
-            // sub.forEach(element => {
-            //     Subject.findById(element,function (err, doc3) {
-            //         class1.subjects.id=doc3.id;
-            //         class1.subjects.code=doc3.code;
-            //         class1.subjects.title=doc3.title;
-            //         // console.log("{id:'"+doc3.id+"', code:'"+doc3.code +"', title:'"+doc3.title+"'},");
-            //         // subs[0].push({id:'"+doc3.id+"', code:'"+doc3.code +"', title:'"+doc3.title+"'});
-            //     });
-            //     // console.log(element);
-            // });
+            console.log("class1"+class1);
+
             class1.save().then(function (err, result) {
                 if (err) {
                     // req.flash('error', "Failed:1  " + err.toString());
                 }
-                console.info("Data Inserted!");
-                Employee.find(function (err, doc) {
-                    Student.find(function (err, doc2) {
-                        Subject.find(function (err, doc3) {
-                        });
-                    });
-                });                
+                console.info("Data Inserted!");              
             });  
             });      
         });      
@@ -668,6 +681,4 @@ router.get('/class-remove/:id', function (req, res, next) {
 router.get('/notify', function (req, res, next) {
     res.render('dashboard/notify', {title: 'Notify', li6: true, dashboard: true, user: req.user});
 });
-
-
 module.exports = router;
