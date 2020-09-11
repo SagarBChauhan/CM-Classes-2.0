@@ -1,0 +1,40 @@
+<div class="profile-page sidebar-collapse">
+    <!-- Navbar -->
+    {{>header}}
+    <!-- End Navbar -->
+    <div class="wrapper">
+        <div class="page-header clear-filter page-header-small" filter-color="orange">
+            <div class="page-header-image" data-parallax="true"
+                 style="background-image:url('/images/boston-public-library-Mi8ozXhtmqI-unsplash.jpg');">
+            </div>
+            <div class="container">
+                <h3 class="title">Alerts</h3>
+                <p class="category">for Students</p>
+                <div class="content">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                {{#if alert}}
+                    {{#each alert}}
+                    <div class="card" style="width: 20rem;">
+                    <img class="card-img-top" src="{{#if this.picture}}{{this.picture}}{{else}} https://icon-library.com/images/photo-placeholder-icon/photo-placeholder-icon-7.jpg {{/if}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h4 class="card-title">{{this.title}}</h4>
+                        <p class="card-text">{{this.description}}</p>
+                        <a href="{{this.link}}" target="_blank" class="btn btn-primary {{#unless this.link}} disabled {{/unless}}">Go</a>
+                    </div>
+                    </div>
+                    {{/each}}
+                {{else}}
+                    no alerts
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+    {{>footer}}
+
+</div>

@@ -37,6 +37,8 @@ router.post('/alert', function (req, res, next) {
     const title=req.body.title;
     const description=req.body.description;
     const audience=req.body.audience;
+    const picture=req.body.picture;
+    const link=req.body.link;
     let ts = Date.now();
     let date_ob = new Date(ts);
     let date = date_ob.getDate();
@@ -48,7 +50,10 @@ router.post('/alert', function (req, res, next) {
         title:title,
         description:description,
         audience:audience,
-        date:date_now
+        date:date_now,
+        picture:picture,
+        link:link,
+        status:"Active",
     });
 
     alert.save().then(function(err,result){
@@ -552,6 +557,19 @@ router.get('/class', function (req, res, next) {
 
         console.log(doc);
         res.render('dashboard/class', {title: 'class', li6: true, dashboard: true, user: req.user, class:doc});
+    });
+});
+
+/* GET class page. */
+router.post('/subject-add', function (req, res, next) {
+    var code=req.body.code;
+    var title=req.body.title;
+    var subject = new Subject({
+        code:code,
+        title:title
+    });
+    subject.save().then(function(err,result){
+        console.log("subject added");
     });
 });
 

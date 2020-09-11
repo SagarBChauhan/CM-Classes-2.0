@@ -189,91 +189,7 @@
                                                                 data-toggle="modal" data-target="#ModelSubject">
                                                     <i class="now-ui-icons ui-1_simple-add"></i>
                                                 </a>
-                                                <div class="modal fade" id="ModelSubject" tabindex="-1"
-                                                        role="dialog"
-                                                        aria-labelledby="ModelSubjectLabel" aria-hidden="true"
-                                                        style="display: none;">
-                                                    <div class="modal-dialog w-100" style="max-width: fit-content;">
-                                                        <div class="modal-content">
-                                                            <div class="modal-body">
-                                                                <div class="card">
-                                                                    <div class="card-header">
-                                                                        <h5 class="title"  style="float:left;" >Add Subjects</h5>
-                                                                        <button type="button" style="float:right;" class="btn btn-danger btn-icon"
-                                                                        data-dismiss="modal"><i class="now-ui-icons ui-1_simple-remove"></i>
-                                                                </button>
-                                                                    </div>
-                                                                    <div class="card-body">
-                                                                    {{#if students}}
-                                                                        <div class="table-responsive">
-                                                                            <table class="table">
-                                                                                <thead class=" text-primary">
-                                                                                <th>
-                                                                                    Picture
-                                                                                </th>
-                                                                                <th>
-                                                                                    Name
-                                                                                </th>
-                                                                                <th>
-                                                                                    Enrollment
-                                                                                </th>
-                                                                                <th>
-                                                                                    Stream
-                                                                                </th>
-                                                                                <th>
-                                                                                    Medium
-                                                                                </th>
-                                                                                <th>
-                                                                                    SchoolName
-                                                                                </th>
-                                                                                <th>
-                                                                                    Standard
-                                                                                </th>
-                                                                                <th class="text-right">
-                                                                                    Action
-                                                                                </th>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                {{# each students }}
-                                                                                    <tr>
-                                                                                        <td class="dp-sm">
-                                                                                            <a class="nav-link" href="#">
-                                                                                                <img class="rounded-circle"
-                                                                                                    src="../assets2/img/mike.jpg"
-                                                                                                    alt="">
-                                                                                            </a>
-                                                                                        </td>
-                                                                                        <td>{{this.firstName}} {{this.middleName}} {{this.lastName}}</td>
-                                                                                        <td>{{this.enrollmentNo}}</td>
-                                                                                        <td>{{this.stream}}</td>
-                                                                                        <td>{{this.medium}}</td>
-                                                                                        <td>{{this.schoolName}}</td>
-                                                                                        <td>{{this.standard}}</td>
-                                                                                        <td class="text-right">
-                                                                                            <a class="btn btn-success btn-round btn-icon btn-sm">
-                                                                                                <i class="now-ui-icons users_single-02"></i>
-                                                                                            </a>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                {{/each}}
-                                                                                </tbody>
-                                                                            </table>
 
-                                                                        </div>
-                                                                    {{else}}
-                                                                        <p>no batch found</p>
-                                                                    {{/if}}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger"
-                                                                        data-dismiss="modal">Close
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                 </div>
@@ -282,6 +198,68 @@
                     </div>
                 </form>
             </div>
+
+            {{!-- Add Subject model --}}
+            <div class="modal fade" id="ModelSubject" tabindex="-1"
+                role="dialog"
+                aria-labelledby="ModelAlertAddLabel" aria-hidden="true"
+                style="display: none;">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                        <form id='addSubject'>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header pb-5">
+                                            <h5 class="title" style="float: left;">Subject Add</h5>
+                                            <button  type="submit" onclick="addSub('admin')" style="float: right;" class="btn btn-primary">
+                                                Add Subject
+                                            </button>                                                  
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 py-1">
+                                                    <div class="form-group">
+                                                        <label for="title">title</label>
+                                                        <input type="text" id="title" name="title" class="form-control" placeholder="subject title" required/>                                                
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 py-1">
+                                                    <div class="form-group">
+                                                        <label for="code">code</label>
+                                                        <input type="text" id="code" name="code" class="form-control" placeholder="subject code" required/>                                                
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>             
+            {{!-- Add Subject model --}}
+            
+            <script>
+                    function addSub(){}
+                    $("form#addSubject").on('submit', function(e){
+                        alert('yes');
+                        e.preventDefault();
+                        var data = $('input[name=quote]').val();
+                        $.ajax({
+                            type: 'post',
+                            url: '/subject-add/',
+                            data: data,
+                            dataType: 'text'
+                        })
+                        .done(function(data){
+                            $('h1').html(data.quote);
+                        });
+                    });
+            </script>
             {{>dashboard/footer}}
         </div>
     </div>

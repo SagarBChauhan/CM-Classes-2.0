@@ -52,8 +52,28 @@ router.get('/logout', isLoggedIn, function (req, res, next) {
     res.redirect('/');
 });
 
+/* GET alert page. */
+router.get('/alert', function (req, res, next) {
+    var audience;
+    console.log(req.user    );
+    if(req.user.type == 'Student'){
+        audience='students';
+        console.log("stud");
+    }
+    else if(req.user.type == 'Employee'){
+        audience='employees';
+        console.log("emp");
+    }
+    Alert.find({'audience':[audience,'all']}).then(function (doc) {
+        console.log(doc + "audience"+audience);
+            res.render('alert', {title: 'Alert', user: req.user,alert:doc});     
+     });
+
+});
+
 /* GET Profile page. */
-router.get('/profile', isLoggedIn, function (req, res, next) {
+router.get('/profile', function (req, res, next) {
+    console.log("Is Authenticated: "+req.isAuthenticated());
     User.findById(req.user.id, function (err, doc) {
         console.info("User:" + doc);
         if (err) {
@@ -614,6 +634,21 @@ router.post('/employee-details', function (req, res, next) {
     });
 
 });
+
+/* New Google Auth */
+router.get('/google',
+  passport.authenticate('google', { scope: 
+      [ 'https://www.googleapis.com/auth/plus.login',
+      , 'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
+));
+
+router.get( '/users/google/redirect', 
+    passport.authenticate( 'google', { 
+        successRedirect: '/users/profile',
+        failureRedirect: '/auth/google/failure'
+}));
+
+/*
 // auth with google
 router.get('/google', passport.authenticate('google', {
     scope: ['profile']
@@ -630,15 +665,19 @@ router.get('/google/redirect',
         failureRedirect: '/users/login', failureFlash: true
     }),
     function (req, res) {
-        if (req.session.oldUrl) {
-            var oldUrl = req.session.oldUrl;
-            req.session.oldUrl = null;
-            res.redirect(oldUrl);
-        } else {
-            console.log("Profile");
-            res.redirect('/users/profile');
-        }
+        console.log("will profile");
+        // if (req.session.oldUrl) {
+        //     var oldUrl = req.session.oldUrl;
+        //     req.session.oldUrl = null;
+        //     res.redirect(oldUrl);
+        // } else {
+        //     console.log("Profile");
+        //     res.redirect('/users/profile');
+        // }
+        res.redirect('/users/profile');
     });
+
+    */
 
 /* Sign up */
 router.get('/signup', notLoggedIn, function (req, res, next) {

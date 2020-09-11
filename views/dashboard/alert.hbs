@@ -60,6 +60,25 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-5 "><hr></div>
+                                                                    <div class="col-md-2 text-center">Optional</div>
+                                                                    <div class="col-md-5 "><hr></div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-6 py-1">
+                                                                        <div class="form-group">
+                                                                            <label for="picture">Picture</label>
+                                                                            <input type="text" id="picture" name="picture" class="form-control" placeholder="enter picture link" required/>                                                
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6 py-1">
+                                                                        <div class="form-group">
+                                                                            <label for="link">Link</label>
+                                                                            <input type="text" id="link" name="link" class="form-control" placeholder="enter website link" required/>                                                
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -84,6 +103,12 @@
                                             <th>
                                                 audience
                                             </th>
+                                            <th>
+                                                picture
+                                            </th>
+                                            <th>
+                                                link
+                                            </th>
                                             <th class="text-right">
                                                 Action
                                             </th>
@@ -94,6 +119,27 @@
                                                     <td>{{this.title}}</td>
                                                     <td>{{this.description}}</td>
                                                     <td>{{this.audience}}</td>
+                                                    <td>     
+                                                        {{#if this.picture}}                                                   
+                                                        <a class="nav-link" style="cursor: -webkit-zoom-in;"  data-toggle="modal" data-target="#exampleModal{{this._id}}">
+                                                            <img class="" style="object-fit: cover; width: 50px; height: 50px; max-width: none;" src="{{this.picture}}" alt="">
+                                                        </a> 
+                                                        <!-- Modal -->
+                                                            <div class="modal fade" style="cursor: -webkit-zoom-out;"  id="exampleModal{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                <div class="modal-body">
+                                                                    <img  src="{{this.picture}}" alt="">                                                                
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <a href="{{this.picture}}" target="_blank" class="btn btn-primary text-white">Download</a>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                        {{/if}}
+                                                    </td>
+                                                    <td><a class="nav-link" href="{{this.link}}" target="_blank">{{this.link}}</a></td>
                                                     <td class="text-right">
                                                         <a onclick="conf()" class="btn btn-danger btn-round  btn-icon btn-sm text-white">
                                                             <i class="now-ui-icons ui-1_simple-remove"></i>                                                       

@@ -13,6 +13,13 @@ router.get('/', function(req, res, next) {
   res.render('index', { messages: messages, hasSuccess: messages.length > 0, title: 'CM Classes' });
 });
 
+/* GET home page. */
+router.get('/video-tutorials', function(req, res, next) {
+  var messages= req.flash('success');
+  res.render('video-tutorials', { messages: messages, hasSuccess: messages.length > 0, title: 'Video Tutorials' });
+});
+
+
 router.post('/', function (req, res, next) {
   var enquiry=new Enquiry({
     firstname:req.body.firstname,
